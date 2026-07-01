@@ -70,9 +70,7 @@ export class WinCheckExecution implements Execution {
     if (
       (max.numTilesOwned() / numTilesWithoutFallout) * 100 >
         this.mg.config().percentageTilesOwnedToWin() ||
-      (this.mg.config().gameConfig().maxTimerValue !== undefined &&
-        timeElapsed - this.mg.config().gameConfig().maxTimerValue! * 60 >= 0) ||
-      timeElapsed >= WinCheckExecution.HARD_TIME_LIMIT_SECONDS
+      this.hasTimeBasedWinExpired(timeElapsed)
     ) {
       this.mg.setWinner(max, this.mg.stats().stats());
       console.log(`${max.name()} has won the game`);
@@ -105,9 +103,7 @@ export class WinCheckExecution implements Execution {
     const percentage = (max[1] / numTilesWithoutFallout) * 100;
     if (
       percentage > this.mg.config().percentageTilesOwnedToWin() ||
-      (this.mg.config().gameConfig().maxTimerValue !== undefined &&
-        timeElapsed - this.mg.config().gameConfig().maxTimerValue! * 60 >= 0) ||
-      timeElapsed >= WinCheckExecution.HARD_TIME_LIMIT_SECONDS
+      this.hasTimeBasedWinExpired(timeElapsed)
     ) {
       if (max[0] === ColoredTeams.Bot) return;
       this.mg.setWinner(max[0], this.mg.stats().stats());
@@ -118,6 +114,21 @@ export class WinCheckExecution implements Execution {
 
   isActive(): boolean {
     return this.active;
+  }
+
+  private hasTimeBasedWinExpired(timeElapsed: number): boolean {
+    if (this.mg === null) throw new Error("Not initialized");
+    if (this.mg.config().funBalkanize()) {
+      return false;
+    }
+
+    const maxTimerValue = this.mg.config().gameConfig().maxTimerValue;
+    return (
+      (maxTimerValue !== undefined &&
+        maxTimerValue !== null &&
+        timeElapsed - maxTimerValue * 60 >= 0) ||
+      timeElapsed >= WinCheckExecution.HARD_TIME_LIMIT_SECONDS
+    );
   }
 
   activeDuringSpawnPhase(): boolean {

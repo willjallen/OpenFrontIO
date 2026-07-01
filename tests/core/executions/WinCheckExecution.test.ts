@@ -74,6 +74,56 @@ describe("WinCheckExecution", () => {
     expect(mg.setWinner).toHaveBeenCalledWith(player, expect.any(Object));
   });
 
+  it("should not set winner in FFA if timer expires during fun balkanize", () => {
+    const player = {
+      numTilesOwned: vi.fn(() => 10),
+      name: vi.fn(() => "P1"),
+    };
+    mg.players = vi.fn(() => [player]);
+    mg.numLandTiles = vi.fn(() => 100);
+    mg.numTilesWithFallout = vi.fn(() => 0);
+    mg.elapsedGameSeconds = vi.fn(() => 5 * 60);
+    mg.config = vi.fn(() => ({
+      funBalkanize: vi.fn(() => true),
+      gameConfig: vi.fn(() => ({
+        maxTimerValue: 5,
+        gameMode: GameMode.FFA,
+      })),
+      percentageTilesOwnedToWin: vi.fn(() => 80),
+    }));
+
+    winCheck.init(mg, 0);
+    winCheck.checkWinnerFFA();
+
+    expect(mg.setWinner).not.toHaveBeenCalled();
+    expect(winCheck.isActive()).toBe(true);
+  });
+
+  it("should not set winner in FFA if hard time limit expires during fun balkanize", () => {
+    const player = {
+      numTilesOwned: vi.fn(() => 10),
+      name: vi.fn(() => "P1"),
+    };
+    mg.players = vi.fn(() => [player]);
+    mg.numLandTiles = vi.fn(() => 100);
+    mg.numTilesWithFallout = vi.fn(() => 0);
+    mg.elapsedGameSeconds = vi.fn(() => 170 * 60);
+    mg.config = vi.fn(() => ({
+      funBalkanize: vi.fn(() => true),
+      gameConfig: vi.fn(() => ({
+        maxTimerValue: undefined,
+        gameMode: GameMode.FFA,
+      })),
+      percentageTilesOwnedToWin: vi.fn(() => 80),
+    }));
+
+    winCheck.init(mg, 0);
+    winCheck.checkWinnerFFA();
+
+    expect(mg.setWinner).not.toHaveBeenCalled();
+    expect(winCheck.isActive()).toBe(true);
+  });
+
   it("should not set winner if no players", () => {
     mg.players = vi.fn(() => []);
     winCheck.checkWinnerFFA();
