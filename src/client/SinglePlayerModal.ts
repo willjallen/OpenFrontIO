@@ -48,6 +48,7 @@ const DEFAULT_OPTIONS = {
   maxTimer: false,
   maxTimerValue: undefined as number | undefined,
   instantBuild: false,
+  funBalkanize: false,
   randomSpawn: false,
   useRandomMap: false,
   gameMode: GameMode.FFA,
@@ -78,6 +79,7 @@ export class SinglePlayerModal extends BaseModal {
   @state() private maxTimerValue: number | undefined =
     DEFAULT_OPTIONS.maxTimerValue;
   @state() private instantBuild: boolean = DEFAULT_OPTIONS.instantBuild;
+  @state() private funBalkanize: boolean = DEFAULT_OPTIONS.funBalkanize;
   @state() private randomSpawn: boolean = DEFAULT_OPTIONS.randomSpawn;
   @state() private useRandomMap: boolean = DEFAULT_OPTIONS.useRandomMap;
   @state() private gameMode: GameMode = DEFAULT_OPTIONS.gameMode;
@@ -297,6 +299,10 @@ export class SinglePlayerModal extends BaseModal {
                     checked: this.instantBuild,
                   },
                   {
+                    labelKey: "single_modal.fun_balkanize",
+                    checked: this.funBalkanize,
+                  },
+                  {
                     labelKey: "single_modal.random_spawn",
                     checked: this.randomSpawn,
                   },
@@ -371,6 +377,7 @@ export class SinglePlayerModal extends BaseModal {
       this.compactMap !== DEFAULT_OPTIONS.compactMap ||
       this.maxTimer !== DEFAULT_OPTIONS.maxTimer ||
       this.instantBuild !== DEFAULT_OPTIONS.instantBuild ||
+      this.funBalkanize !== DEFAULT_OPTIONS.funBalkanize ||
       this.randomSpawn !== DEFAULT_OPTIONS.randomSpawn ||
       this.gameMode !== DEFAULT_OPTIONS.gameMode ||
       this.goldMultiplier !== DEFAULT_OPTIONS.goldMultiplier ||
@@ -396,6 +403,7 @@ export class SinglePlayerModal extends BaseModal {
     this.maxTimer = DEFAULT_OPTIONS.maxTimer;
     this.maxTimerValue = DEFAULT_OPTIONS.maxTimerValue;
     this.instantBuild = DEFAULT_OPTIONS.instantBuild;
+    this.funBalkanize = DEFAULT_OPTIONS.funBalkanize;
     this.randomSpawn = DEFAULT_OPTIONS.randomSpawn;
     this.teamCount = DEFAULT_OPTIONS.teamCount;
     this.disabledUnits = [...DEFAULT_OPTIONS.disabledUnits];
@@ -471,6 +479,9 @@ export class SinglePlayerModal extends BaseModal {
     switch (labelKey) {
       case "single_modal.instant_build":
         this.instantBuild = checked;
+        break;
+      case "single_modal.fun_balkanize":
+        this.funBalkanize = checked;
         break;
       case "single_modal.random_spawn":
         this.randomSpawn = checked;
@@ -678,6 +689,7 @@ export class SinglePlayerModal extends BaseModal {
               donateTroops: this.gameMode === GameMode.Team,
               infiniteTroops: this.infiniteTroops,
               instantBuild: this.instantBuild,
+              funBalkanize: this.funBalkanize,
               randomSpawn: this.randomSpawn,
               disabledUnits: this.disabledUnits
                 .map((u) => Object.values(UnitType).find((ut) => ut === u))

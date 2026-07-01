@@ -459,6 +459,13 @@ export class JoinLobbyModal extends BaseModal {
           .value=${translateText("common.enabled")}
         ></lobby-config-item>`,
       );
+    if (c.funBalkanize)
+      cards.push(
+        html`<lobby-config-item
+          .label=${translateText("host_modal.fun_balkanize")}
+          .value=${translateText("common.enabled")}
+        ></lobby-config-item>`,
+      );
     if (c.randomSpawn)
       cards.push(
         html`<lobby-config-item

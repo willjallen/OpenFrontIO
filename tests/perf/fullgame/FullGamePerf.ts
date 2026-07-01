@@ -221,6 +221,7 @@ async function main(): Promise<void> {
   let fatalError: string | undefined;
   const runner = new GameRunner(
     game,
+    gameStart.gameID,
     new Executor(game, gameStart.gameID, undefined),
     (gu) => {
       if ("errMsg" in gu) {

@@ -72,6 +72,7 @@ export class HostLobbyModal extends BaseModal {
   @state() private maxTimerValue: number | undefined = undefined;
   @state() private startDelayValue: number | undefined = 3;
   @state() private instantBuild: boolean = false;
+  @state() private funBalkanize: boolean = false;
   @state() private randomSpawn: boolean = false;
   @state() private compactMap: boolean = false;
   @state() private goldMultiplier: boolean = false;
@@ -388,6 +389,10 @@ export class HostLobbyModal extends BaseModal {
                     checked: this.instantBuild,
                   },
                   {
+                    labelKey: "host_modal.fun_balkanize",
+                    checked: this.funBalkanize,
+                  },
+                  {
                     labelKey: "host_modal.random_spawn",
                     checked: this.randomSpawn,
                   },
@@ -591,6 +596,7 @@ export class HostLobbyModal extends BaseModal {
     this.maxTimerValue = undefined;
     this.startDelayValue = 3;
     this.instantBuild = false;
+    this.funBalkanize = false;
     this.randomSpawn = false;
     this.compactMap = false;
     this.useRandomMap = false;
@@ -672,6 +678,10 @@ export class HostLobbyModal extends BaseModal {
     switch (labelKey) {
       case "host_modal.instant_build":
         this.handleInstantBuildChange(checked);
+        break;
+      case "host_modal.fun_balkanize":
+        this.funBalkanize = checked;
+        this.putGameConfig();
         break;
       case "host_modal.random_spawn":
         this.handleRandomSpawnChange(checked);
@@ -1066,6 +1076,7 @@ export class HostLobbyModal extends BaseModal {
             infiniteTroops: this.infiniteTroops,
             donateTroops: this.donateTroops,
             instantBuild: this.instantBuild,
+            funBalkanize: this.funBalkanize,
             randomSpawn: this.randomSpawn,
             gameMode: this.gameMode,
             disabledUnits: this.disabledUnits,

@@ -90,6 +90,7 @@ describe("GameRunner payload cadence", () => {
     byTick = new Map();
     const runner = new GameRunner(
       game,
+      gameID,
       new Executor(game, gameID, "alice_client"),
       (gu) => {
         if (!("errMsg" in gu)) byTick.set(gu.tick, gu);

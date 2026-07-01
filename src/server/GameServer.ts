@@ -220,6 +220,9 @@ export class GameServer {
     if (gameConfig.instantBuild !== undefined) {
       this.gameConfig.instantBuild = gameConfig.instantBuild;
     }
+    if (gameConfig.funBalkanize !== undefined) {
+      this.gameConfig.funBalkanize = gameConfig.funBalkanize;
+    }
     if (gameConfig.randomSpawn !== undefined) {
       this.gameConfig.randomSpawn = gameConfig.randomSpawn;
     }

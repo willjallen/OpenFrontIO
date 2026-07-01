@@ -284,6 +284,7 @@ export const GameConfigSchema = z.object({
   infiniteGold: z.boolean(),
   infiniteTroops: z.boolean(),
   instantBuild: z.boolean(),
+  funBalkanize: z.boolean().optional(),
   disableNavMesh: z.boolean().optional(),
   disableAlliances: z.boolean().nullable().optional(),
   disableClanTags: z.boolean().optional(),

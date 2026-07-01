@@ -1,6 +1,7 @@
 import { placeName, placeSpawnName } from "../client/hud/NameBoxCalculator";
 import { Config } from "./configuration/Config";
 import { Executor } from "./execution/ExecutionManager";
+import { FunBalkanizeExecution } from "./execution/FunBalkanizeExecution";
 import { RecomputeRailClusterExecution } from "./execution/RecomputeRailClusterExecution";
 import { SpawnTimerExecution } from "./execution/SpawnTimerExecution";
 import { WinCheckExecution } from "./execution/WinCheckExecution";
@@ -28,7 +29,7 @@ import { ErrorUpdate, GameUpdateViewData } from "./game/GameUpdates";
 import { createNationsForGame } from "./game/NationCreation";
 import { loadTerrainMap as loadGameMap } from "./game/TerrainMapLoader";
 import { PseudoRandom } from "./PseudoRandom";
-import { ClientID, GameStartInfo, Turn } from "./Schemas";
+import { ClientID, GameID, GameStartInfo, Turn } from "./Schemas";
 import { simpleHash } from "./Util";
 
 export async function createGameRunner(
@@ -76,6 +77,7 @@ export async function createGameRunner(
 
   const gr = new GameRunner(
     game,
+    gameStart.gameID,
     new Executor(game, gameStart.gameID, clientID),
     callBack,
   );
@@ -92,6 +94,7 @@ export class GameRunner {
 
   constructor(
     public game: Game,
+    private gameID: GameID,
     private execManager: Executor,
     private callBack: (gu: GameUpdateViewData | ErrorUpdate) => void,
   ) {}
@@ -110,6 +113,9 @@ export class GameRunner {
       this.game.addExecution(
         ...this.execManager.spawnTribes(this.game.config().bots()),
       );
+    }
+    if (this.game.config().funBalkanize()) {
+      this.game.addExecution(new FunBalkanizeExecution(this.gameID));
     }
     this.game.addExecution(new WinCheckExecution());
     if (!this.game.config().isUnitDisabled(UnitType.Factory)) {

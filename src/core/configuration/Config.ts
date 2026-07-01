@@ -173,6 +173,9 @@ export class Config {
   instantBuild(): boolean {
     return this._gameConfig.instantBuild;
   }
+  funBalkanize(): boolean {
+    return this._gameConfig.funBalkanize ?? false;
+  }
   disableNavMesh(): boolean {
     return this._gameConfig.disableNavMesh ?? false;
   }
