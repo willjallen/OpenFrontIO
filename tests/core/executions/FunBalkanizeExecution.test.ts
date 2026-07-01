@@ -96,7 +96,7 @@ describe("FunBalkanizeExecution", () => {
     ).toBe(originalTiles);
   });
 
-  test("defaults to a forty percent balkanization threshold", async () => {
+  test("defaults to a thirty-three percent balkanization threshold", async () => {
     const game = await setup("plains");
     const target = game.addPlayer(
       new PlayerInfo("Dominant", PlayerType.Nation, null, "dominant_id"),
@@ -104,7 +104,7 @@ describe("FunBalkanizeExecution", () => {
     const revived = game.addPlayer(
       new PlayerInfo("Revived", PlayerType.Nation, null, "revived_id"),
     );
-    const originalTiles = claimLandShare(game, target, 0.41);
+    const originalTiles = claimLandShare(game, target, 0.34);
 
     game.addExecution(
       new FunBalkanizeExecution(gameID, {
@@ -122,14 +122,14 @@ describe("FunBalkanizeExecution", () => {
     );
   });
 
-  test("defaults to twenty to forty split participants", async () => {
+  test("defaults to fifty to eighty split participants", async () => {
     const game = await setup("plains");
     const target = game.addPlayer(
       new PlayerInfo("Dominant", PlayerType.Nation, null, "dominant_id"),
     );
     const originalTiles = claimLandShare(game, target, 0.75);
 
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 90; i++) {
       game.addPlayer(
         new PlayerInfo(`DeadNation${i}`, PlayerType.Nation, null, `dead_${i}`),
       );
@@ -143,8 +143,8 @@ describe("FunBalkanizeExecution", () => {
       .filter(
         (player) => player.type() === PlayerType.Nation && player.isAlive(),
       );
-    expect(liveNations.length).toBeGreaterThanOrEqual(20);
-    expect(liveNations.length).toBeLessThanOrEqual(40);
+    expect(liveNations.length).toBeGreaterThanOrEqual(50);
+    expect(liveNations.length).toBeLessThanOrEqual(80);
     expect(
       liveNations.reduce((sum, player) => sum + player.numTilesOwned(), 0),
     ).toBe(originalTiles);

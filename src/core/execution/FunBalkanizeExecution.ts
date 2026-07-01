@@ -23,10 +23,10 @@ export interface FunBalkanizeExecutionOptions {
 }
 
 const DEFAULT_OPTIONS: Required<FunBalkanizeExecutionOptions> = {
-  minThreshold: 0.4,
-  maxThreshold: 0.4,
-  minPieces: 20,
-  maxPieces: 40,
+  minThreshold: 0.33,
+  maxThreshold: 0.33,
+  minPieces: 50,
+  maxPieces: 80,
   maxCreatedPlayers: 1000,
   scanIntervalTicks: 10,
 };
